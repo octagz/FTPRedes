@@ -38,12 +38,16 @@ void cadenaAMinuscula(char * str);
 
 // Programa principal
 
-int main() {
+int main(int argc, char * argv[]) {
 
     char * argumentos[MAX_ARGS]; // TODAVIA NO LO USE
     char linea[MAX_LINE];
     char * token;
     char * comando;
+    
+    if (argc > 1) {
+        // BUSCAR SI SE PIDIO AYUDA O SI SE ESPECIFICO EL SERVER Y PORT PARA EL OPEN
+    }
 
     while (keepWorking) {
         
