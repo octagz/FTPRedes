@@ -44,19 +44,23 @@ int main(int argc, char * argv[]) {
     char linea[MAX_LINE];
     char * token;
     char * comando;
-    
+
     if (argc > 1) {
         // BUSCAR SI SE PIDIO AYUDA O SI SE ESPECIFICO EL SERVER Y PORT PARA EL OPEN
+        char* ip = "localhost";
+        char* puerto = "21";
+        printf("%s\t%s\n", ip, puerto);
+        openFTP(ip, puerto);
     }
 
     while (keepWorking) {
-        
+
         printf("FTP CLIENT $  ");
-        
+
         // Se obtiene la línea ingresada por el usuario
-        
+
         fgets(linea, MAX_LINE, stdin);
-        
+
         // Se captura el nombre del comando
 
         token = strtok(linea, "\n ' '");
@@ -77,7 +81,7 @@ int main(int argc, char * argv[]) {
         }
 
         // Se ejecuta el comando con sus argumentos correspondientes
-        
+
         ejecutarComando(comando, argumentos);
 
         // Se "limpian" los argumentos para el próximo comando
@@ -173,43 +177,43 @@ void ejecutarComando(char * comando, char * argumentos[]) {
 
         case PWD:
         {
-        printf("PWD COMMAND\n");
+            printf("PWD COMMAND\n");
             break;
         }
 
         case CD:
         {
-        printf("CD COMMAND\n");
+            printf("CD COMMAND\n");
             break;
         }
-        
+
         case LIST:
         {
-        printf("LIST COMMAND\n");
+            printf("LIST COMMAND\n");
             break;
         }
-        
+
         case PUT:
         {
-        printf("PUT COMMAND\n");
+            printf("PUT COMMAND\n");
             break;
         }
-        
+
         case GET:
         {
-        printf("GET COMMAND\n");
+            printf("GET COMMAND\n");
             break;
         }
-        
+
         case PASSIVE:
         {
-        printf("PASSIVE COMMAND\n");
+            printf("PASSIVE COMMAND\n");
             break;
         }
-        
+
         case ACTIVE:
         {
-        printf("ACTIVE COMMAND\n");
+            printf("ACTIVE COMMAND\n");
             break;
         }
 
