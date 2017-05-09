@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <ctype.h>
 #include <string.h>
+#include "ftp.h"
 
 #define MAX_LINE 100        // Tamaño máximo de una línea
 #define MAX_ARGS 10         // Cantidad máxima de argumentos
@@ -36,21 +37,37 @@ void ejecutarComando(char * comando, char * args[]);
 
 void cadenaAMinuscula(char * str);
 
+int solicitaAyuda(int argc, char * argv[]);
+
 // Programa principal
 
 int main(int argc, char * argv[]) {
 
-    char * argumentos[MAX_ARGS]; // TODAVIA NO LO USE
+    char * argumentos[MAX_ARGS];
     char linea[MAX_LINE];
     char * token;
     char * comando;
 
     if (argc > 1) {
-        // BUSCAR SI SE PIDIO AYUDA O SI SE ESPECIFICO EL SERVER Y PORT PARA EL OPEN
-        char* ip = "localhost";
-        char* puerto = "21";
-        printf("%s\t%s\n", ip, puerto);
-        openFTP(ip, puerto);
+        if (solicitaAyuda(argc, argv)) {
+            comando = "-h";
+            keepWorking = 0;
+            ejecutarComando(comando, argumentos);
+        } else {
+            if (argc > 3) {
+                comando = "-h";
+                keepWorking = 0;
+                ejecutarComando(comando, argumentos);
+            } else {
+                // OPEN
+                char* ip = argv[1];
+                char* puerto = "21";
+                if (argc == 3) {
+                    puerto = argv[2];
+                }
+                openFTP(ip, puerto);                
+            }
+        }
     }
 
     while (keepWorking) {
@@ -97,11 +114,26 @@ int main(int argc, char * argv[]) {
 }
 
 /**
+ * Busca la opción -h en los argumentos pasados por consola
+ */
+
+int solicitaAyuda(int argc, char * argv[]) {
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "-H") == 0) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/**
  * Transforma el string recibido en el mismo string pero en minúsculas.
  */
 void cadenaAMinuscula(char * str) {
     for (int i = 0; i < strlen(str); i++) {
-        str[i] = tolower(str[i]);
+        if (isupper(str[i])) {
+            str[i] = tolower(str[i]);
+        }
     }
 }
 
@@ -134,8 +166,10 @@ int getvalorcomando(char * comando) {
         return PASSIVE;
     if (strcmp(comando, "active") == 0 || strcmp(comando, "activo") == 0)
         return ACTIVE;
-    if (strcmp(comando, "-h") == 0)
+    if (strcmp(comando, "-h") == 0) {
+        printf("entra caso\n");
         return HELP;
+    }
 
     return -1;
 
