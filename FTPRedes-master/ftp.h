@@ -11,9 +11,21 @@
  * Created on 9 de mayo de 2017, 10:49
  */
 
-void openFTP(char*, char*,char*);
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <ctype.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <resolv.h>
+#include <netinet/in.h>
 
-void closeConnection(int fd);
 
+void openFTP(char*, char*);
+void userFTP(char*);
 
-extern int errno;
+void leerRespuesta();
+
+#include <errno.h>
+int sd;
