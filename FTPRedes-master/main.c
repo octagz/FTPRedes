@@ -51,7 +51,8 @@ int main(int argc, char * argv[]) {
 
     if (argc > 1) {
         if (solicitaAyuda(argc, argv)) {
-            comando = "-h";
+            char command[] = "-H";
+            comando = command;
             keepWorking = 0;
             ejecutarComando(comando, argumentos);
         } else {
@@ -68,10 +69,13 @@ int main(int argc, char * argv[]) {
                 }
                 openFTP(ip, puerto,&rta); 
                 printf("%s\t",rta); //Imprimo el código de respuesta
+                
+                rta[0] = '1';
                 if(rta[0]=='1'){
                     printf("Intente conectarse mas tarde\n");
-                    comando = "QUIT";
-                    ejecutarComando(comando,argumentos);
+                    char command[] = "QUIT";
+                    comando = command;
+                    ejecutarComando(comando, argumentos);
                 }
                 else if (rta[0]=='4'){
                     printf("Servicio no disponible. Conexión Finalizada");
@@ -108,10 +112,12 @@ int main(int argc, char * argv[]) {
         int i = 0;
         comando = token;
         while (token != NULL) {
-            i++;
+            
             token = strtok(NULL, "\n ' '");
             argumentos[i] = token;
+            i++;
         }
+        
 
         // Se ejecuta el comando con sus argumentos correspondientes
 
@@ -148,7 +154,7 @@ int solicitaAyuda(int argc, char * argv[]) {
 void cadenaAMinuscula(char * str) {
     for (int i = 0; i < strlen(str); i++) {
         if (isupper(str[i])) {
-            str[i] = tolower(str[i]);
+             str[i] = tolower(str[i]);
         }
     }
 }
@@ -160,7 +166,7 @@ void cadenaAMinuscula(char * str) {
 int getvalorcomando(char * comando) {
 
     cadenaAMinuscula(comando);
-    if (strcmp(comando, "exit") == 0 || strcmp(comando, "salir") == 0)
+    if (strcmp(comando, "quit") == 0 || strcmp(comando, "salir") == 0)
         return QUIT;
     if (strcmp(comando, "open") == 0 || strcmp(comando, "conectar") == 0)
         return OPEN;
@@ -203,6 +209,7 @@ void ejecutarComando(char * comando, char * argumentos[]) {
 
         case QUIT:
         {
+            closeConnection(sd);
             keepWorking = 0;
             break;
         }

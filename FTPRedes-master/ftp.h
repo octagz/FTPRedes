@@ -13,4 +13,7 @@
 
 void openFTP(char*, char*,char*);
 
+void closeConnection(int fd);
+
+
 extern int errno;
