@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <ctype.h>
-#include <string.h>
 #include "ftp.h"
 
 #define MAX_LINE 100        // Tamaño máximo de una línea
@@ -66,7 +60,7 @@ int main(int argc, char * argv[]) {
                 if (argc == 3) {
                     puerto = argv[2];
                 }
-                openFTP(ip, puerto,&rta); 
+                openFTP(ip, puerto); 
                 printf("%s\t",rta); //Imprimo el código de respuesta
                 if(rta[0]=='1'){
                     printf("Intente conectarse mas tarde\n");
@@ -108,9 +102,9 @@ int main(int argc, char * argv[]) {
         int i = 0;
         comando = token;
         while (token != NULL) {
-            i++;
             token = strtok(NULL, "\n ' '");
             argumentos[i] = token;
+            i++;
         }
 
         // Se ejecuta el comando con sus argumentos correspondientes
@@ -215,7 +209,21 @@ void ejecutarComando(char * comando, char * argumentos[]) {
 
         case USER:
         {
-            printf("USER COMMAND\n");
+            userFTP(argumentos[0]);
+            //Considero las distintas respuestas
+            switch(rta[0]){
+                case '3':
+                {//El server requiere más información, en este caso la password.
+                    printf("Ingrese la contraseña:\n");
+                    char password[30];
+                    fgets(password, 30, stdin);
+                    char com[] = "PASS";
+                    char * args[MAX_ARGS];
+                    args[0]=&com;
+                    ejecutarComando(com,args);
+                    
+                }
+            }
             break;
         }
 
@@ -284,5 +292,17 @@ void ejecutarComando(char * comando, char * argumentos[]) {
 
 }
 
-
+leerRespuesta(){
+     /*Espero la respuesta del servidor, solo leo los primeros
+     *3 caracteres que contiene el código de respuesta.
+     */
+    char buffer[MAXBUF];
+    int bytes_read = recv(sd, buffer,MAXBUF,MSG_WAITALL); /* read the message */
+    if ( bytes_read < 0 ){
+         printf("Error %d",errno);
+        abort();
+    }
+    //Copio en rta la respuesta del servidor
+    strcpy(rta,buffer);
+}
 
