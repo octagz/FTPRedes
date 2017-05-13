@@ -13,8 +13,11 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>cd.c</itemPath>
+      <itemPath>login.c</itemPath>
       <itemPath>main.c</itemPath>
       <itemPath>open.c</itemPath>
+      <itemPath>pwd.c</itemPath>
       <itemPath>quit.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
@@ -39,11 +42,17 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="cd.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="ftp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="login.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="open.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="pwd.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="quit.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -68,11 +77,17 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="cd.c" ex="false" tool="0" flavor2="0">
+      </item>
       <item path="ftp.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="login.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="open.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="pwd.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="quit.c" ex="false" tool="0" flavor2="0">
       </item>

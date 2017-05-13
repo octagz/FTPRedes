@@ -64,7 +64,6 @@ int main(int argc, char * argv[]) {
                 openFTP(ip, puerto); 
                 printf("%s\t",rta); //Imprimo el código de respuesta
                 
-                rta[0] = '1';
                 if(rta[0]=='1'){
                     printf("Intente conectarse mas tarde\n");
                     char command[] = "QUIT";
@@ -242,12 +241,14 @@ void ejecutarComando(char * comando, char * argumentos[]) {
         case PWD:
         {
             printf("PWD COMMAND\n");
+            pwdFTP();
             break;
         }
 
         case CD:
         {
             printf("CD COMMAND\n");
+            cdFTP(argumentos[0]);
             break;
         }
 

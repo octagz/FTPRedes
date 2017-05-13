@@ -35,8 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/cd.o \
+	${OBJECTDIR}/login.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/open.o \
+	${OBJECTDIR}/pwd.o \
 	${OBJECTDIR}/quit.o
 
 
@@ -64,6 +67,16 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ftpredes-master: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.c} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/ftpredes-master ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/cd.o: cd.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/cd.o cd.c
+
+${OBJECTDIR}/login.o: login.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/login.o login.c
+
 ${OBJECTDIR}/main.o: main.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
@@ -73,6 +86,11 @@ ${OBJECTDIR}/open.o: open.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/open.o open.c
+
+${OBJECTDIR}/pwd.o: pwd.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/pwd.o pwd.c
 
 ${OBJECTDIR}/quit.o: quit.c
 	${MKDIR} -p ${OBJECTDIR}
