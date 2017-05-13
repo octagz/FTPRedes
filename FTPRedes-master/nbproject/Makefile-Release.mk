@@ -36,6 +36,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 # Object Files
 OBJECTFILES= \
 	${OBJECTDIR}/cd.o \
+	${OBJECTDIR}/list.o \
 	${OBJECTDIR}/login.o \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/open.o \
@@ -71,6 +72,11 @@ ${OBJECTDIR}/cd.o: cd.c
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/cd.o cd.c
+
+${OBJECTDIR}/list.o: list.c
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.c) -O2 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/list.o list.c
 
 ${OBJECTDIR}/login.o: login.c
 	${MKDIR} -p ${OBJECTDIR}

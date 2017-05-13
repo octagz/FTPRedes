@@ -226,7 +226,7 @@ void ejecutarComando(char * comando, char * argumentos[]) {
                     fgets(password, 30, stdin);
                     char com[] = "PASS";
                     char * args[MAX_ARGS];
-                    args[0]=com;
+                    args[0]=password;
                     ejecutarComando(com,args);
                     break;
                 }
@@ -262,7 +262,9 @@ void ejecutarComando(char * comando, char * argumentos[]) {
 
         case LIST:
         {
+            openDataFTP("13917");
             printf("LIST COMMAND\n");
+            listFTP(argumentos[0]);
             break;
         }
 
