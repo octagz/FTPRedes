@@ -3,6 +3,7 @@
 #define MAX_LINE 100        // Tamaño máximo de una línea
 #define MAX_ARGS 10         // Cantidad máxima de argumentos
 #define MAXBUF 3
+#define MAXBUFRTA 1000
 // Comandos disponibles
 
 #define QUIT 0
@@ -23,6 +24,7 @@
 
 int keepWorking = 1;
 char rta[MAXBUF];
+char bufferRta[MAXBUFRTA];
 
 // Declaraciones de funciones
 
@@ -210,18 +212,24 @@ void ejecutarComando(char * comando, char * argumentos[]) {
         case USER:
         {
             userFTP(argumentos[0]);
-            //Considero las distintas respuestas
+            //Considero las distintas respuestas en base al primer digito
             switch(rta[0]){
                 case '3':
                 {//El server requiere más información, en este caso la password.
-                    printf("Ingrese la contraseña:\n");
+                    printf("Contraseña:");
                     char password[30];
                     fgets(password, 30, stdin);
                     char com[] = "PASS";
                     char * args[MAX_ARGS];
-                    args[0]=&com;
+                    args[0]=com;
                     ejecutarComando(com,args);
-                    
+                    break;
+                }
+                case '1':
+                case '4':
+                case '5':
+                {//Caso de error no hago nada, vuelvo a esperar
+                    break;
                 }
             }
             break;
@@ -229,7 +237,7 @@ void ejecutarComando(char * comando, char * argumentos[]) {
 
         case PASS:
         {
-            printf("PASS COMMAND\n");
+            passFTP(argumentos[0]);
             break;
         }
 
@@ -296,13 +304,18 @@ leerRespuesta(){
      /*Espero la respuesta del servidor, solo leo los primeros
      *3 caracteres que contiene el código de respuesta.
      */
-    char buffer[MAXBUF];
-    int bytes_read = recv(sd, buffer,MAXBUF,MSG_WAITALL); /* read the message */
+    
+    int bytes_read = recv(sd, bufferRta,MAXBUFRTA,0); /* read the message */
     if ( bytes_read < 0 ){
-         printf("Error %d",errno);
+        printf("Error %d",errno);
         abort();
     }
+    printf("%s\n",&bufferRta);
+    //Leo el resto del mensaje para que no quede en 
     //Copio en rta la respuesta del servidor
-    strcpy(rta,buffer);
+    strcpy(rta,bufferRta);
+    
+    //Limpio el buffer
+    bzero(bufferRta,MAXBUFRTA);
 }
 
