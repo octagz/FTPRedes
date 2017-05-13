@@ -8,7 +8,7 @@
 
 #define MAX_LINE 100        // Tamaño máximo de una línea
 #define MAX_ARGS 10         // Cantidad máxima de argumentos
-
+#define MAXBUF 3
 // Comandos disponibles
 
 #define QUIT 0
@@ -28,6 +28,7 @@
 // Variable global de control
 
 int keepWorking = 1;
+char rta[MAXBUF];
 
 // Declaraciones de funciones
 
@@ -65,7 +66,22 @@ int main(int argc, char * argv[]) {
                 if (argc == 3) {
                     puerto = argv[2];
                 }
-                openFTP(ip, puerto);                
+                openFTP(ip, puerto,&rta); 
+                printf("%s\t",rta); //Imprimo el código de respuesta
+                if(rta[0]=='1'){
+                    printf("Intente conectarse mas tarde\n");
+                    comando = "QUIT";
+                    ejecutarComando(comando,argumentos);
+                }
+                else if (rta[0]=='4'){
+                    printf("Servicio no disponible. Conexión Finalizada");
+                    comando = "QUIT";
+                    ejecutarComando(comando,argumentos);
+                }
+                else{
+                    printf("Conexion exitosa\n");
+                }
+                
             }
         }
     }

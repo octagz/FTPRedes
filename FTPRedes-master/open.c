@@ -20,17 +20,19 @@
 #include <errno.h>
 /*for getting file size using stat()*/
 #include<sys/stat.h>
-
 /*for sendfile()*/
 #include<sys/sendfile.h>
-
 /*for O_RDONLY*/
 #include<fcntl.h>
-extern int errno;
+
+
+#include "ftp.h"
+#define MAXBUF 3
 /*
+ * Requiere que el ip del servidor y el puerto sean válidos
  * 
  */
-int openFTP(char* serverIP, char* puertoC){
+void openFTP(char* serverIP, char* puertoC,char* rta){
     
     /************************************************************/
     /*** Code snippet showing initialization and calling of
@@ -49,40 +51,23 @@ int openFTP(char* serverIP, char* puertoC){
         dest.sin_port = htons(port); /* select the port*/
     inet_aton(serverIP, &dest.sin_addr);
     /* remote address*/
-    if ( connect(sd, &dest, sizeof(dest)) == 0 )
+    if ( connect(sd, &dest, sizeof(dest)) != 0 )
     /* connect!*/
     {
-        printf("Conexión establecida\n");
-        abort();
-    }
-    else{
         printf("Error %d",errno);
         abort();
     }
-  /*Creación Socket
-  struct sockaddr_in server;
-  int sock,puerto,k;
-  sock = socket(AF_INET, SOCK_STREAM, 0);
-  if(sock == -1)
-    {
-      printf("Creación de socket fallida");
-      exit(1);
+    
+    /*Espero la respuesta del servidor, solo leo los primeros
+     *3 caracteres que contiene el código de respuesta.
+     */
+    char buffer[MAXBUF];
+    int bytes_read = recv(sd, buffer,MAXBUF,MSG_WAITALL); /* read the message */
+    if ( bytes_read < 0 ){
+         printf("Error %d",errno);
+        abort();
     }
-  
-  puerto = atoi(puertoC);
-  server.sin_family = AF_INET;
-  server.sin_port = htons(puerto);
-  server.sin_addr.s_addr = 0;
-
-  k = connect(sock,(struct sockaddr*)&server, sizeof(server));
-  if(k == -1)
-    {
-      printf("Connect Error");
-      exit(1);
-    }
-  else{
-      printf("exito\n");
-  }
-  
-    */
+    //Copio en rta la respuesta del servidor
+    strcpy(rta,buffer);
+    
 }

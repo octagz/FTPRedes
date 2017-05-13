@@ -11,5 +11,6 @@
  * Created on 9 de mayo de 2017, 10:49
  */
 
-int openFTP(char*, char*);
+void openFTP(char*, char*,char*);
 
+extern int errno;
