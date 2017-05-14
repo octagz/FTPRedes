@@ -5,6 +5,12 @@
 
 void listFTP(char * dir){
     
+    int a = 0;
+    int b = 0;
+    
+    portToHexa(13917,&a,&b);
+    printf(" puerto 13917: %i %i\n", a, b);
+    
     char buffer2[MAXCOMMAND] = "PORT 127,0,0,1,54,93";
     strcat(&buffer2,"\n");
     send(sd,buffer2, strlen(buffer2), 0);

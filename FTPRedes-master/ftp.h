@@ -27,5 +27,7 @@ void userFTP(char*);
 
 void leerRespuesta();
 
+void portToHexa(int p, int * a, int * b);
+
 #include <errno.h>
 int sd;

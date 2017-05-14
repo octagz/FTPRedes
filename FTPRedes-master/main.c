@@ -264,6 +264,8 @@ void ejecutarComando(char * comando, char * argumentos[]) {
         {
             openDataFTP("13917");
             printf("LIST COMMAND\n");
+            if (argumentos[0] == NULL)
+                argumentos[0] = "";
             listFTP(argumentos[0]);
             break;
         }
@@ -328,3 +330,10 @@ leerRespuesta(){
     bzero(bufferRta,MAXBUFRTA);
 }
 
+
+void portToHexa (int p, int * a, int * b) {
+    int valueA = p/256;
+    int valueB = p%256;
+    *a = valueA;
+    *b = valueB;
+}
